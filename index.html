@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gemini AI Chatbot</title>
+</head>
+<body>
+    <h2>AI Chatbot</h2>
+    <div id="chatbox"></div>
+
+    <input type="text" id="userInput" placeholder="Type message...">
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        function sendMessage() {
+            let input = document.getElementById("userInput").value;
+
+            fetch("/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: input })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("chatbox").innerHTML += 
+                    "<p><b>You:</b> " + input + "</p>";
+                document.getElementById("chatbox").innerHTML += 
+                    "<p><b>Bot:</b> " + data.reply + "</p>";
+            });
+
+            document.getElementById("userInput").value = "";
+        }
+    </script>
+</body>
+</html>
